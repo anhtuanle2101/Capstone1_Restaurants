@@ -12,12 +12,16 @@ to create an account to do thoses!)
 ## APIs
 
 - Documenu https://documenu.com/docs#get_started
+  
   -- Restaurants Search (filters on location(geocoding paratemers), cuisines, distance)
+  
   -- Menu items Search (based on terms, specific restaurants, locations)
 
 - Geocoding API https://developers.google.com/maps/documentation/geocoding/overview
+  
   -- Convert an address into geocoding
 
 - Stripe https://stripe.com/docs/api
+  
   -- Provide checkout system that offers ways to accept card payments
 
