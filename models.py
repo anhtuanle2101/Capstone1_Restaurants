@@ -1,7 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
 
 def connect_db(app):
     db.app = app
@@ -20,7 +22,42 @@ class User(db.Model):
     zip_code = db.Column(db.String(5), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     birth_date = db.Column(db.DateTime)
-    image_url = db.Column(db.DateTime, nullable=False, default='')
+    image_url = db.Column(db.DateTime, nullable=False, default='/static/images/default-pic.png')
+
+    favorites = db.relationship('Favorite')
+    
+    comments = db.relationship('Comment')
+
+    likes = db.relationship('Like')
+
+    @classmethod
+    def signup(cls, first_name, last_name, password, email, zip_code, birth_date):
+        u = cls.query.filter(User.email == email).first()
+        if u:
+            hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+            u = cls(
+                first_name= first_name,
+                last_name= last_name,
+                password= hashed_pwd,
+                email= email,
+                zip_code= zipcode,
+                birth_date= birth_date
+            )
+            db.session.add(u)
+            db.session.commit()
+            return u
+        else:
+            return False
+    
+    @classmethod
+    def authenticate(cls, email, password):
+        u = cls.query.filter(User.email == email).first()
+        if u:
+            is_auth = bcrypt.check_password_hash(u.password, password)
+            if is_auth:
+                return u
+        return False
+    
 
 class Favorite(db.Model):
     """Favorites collection => users can favorites businesses"""
@@ -30,6 +67,7 @@ class Favorite(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), primary_key=True)
     business_id = db.Column(db.Text, primary_key=True)
 
+    user = db.relationship('User')
 
 class Comment(db.Model):
     """Comments collection => Users can comment on businesses"""
@@ -41,6 +79,10 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     business_id = db.Column(db.Text, nullable=False)
+
+    user = db.relationship('User')
+
+    likes = db.relationship('Like')
     
 class Like(db.Model):
     """Likes collection => Users can like comments on businesses"""
@@ -51,6 +93,9 @@ class Like(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id', ondelete='cascade'), nullable=False)
 
+    user = db.relationship('User')
+    comment = db.relationship('Comment')
+
 class Cart_Items(db.Model):
     """Cart of items Collection which each user have a unique cart of items"""
 
@@ -60,3 +105,5 @@ class Cart_Items(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     item_id = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
+
+    user = db.relationship('User')
