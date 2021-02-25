@@ -34,8 +34,7 @@
 -   Favorites(user_id(pk, foreign_key(users.id)), business_id(fk to yelp's database))
 -   Comments(id(pk), message(text), created_at(timestamp), user_id(foreign_key(users.id)), business_id(fk to yelp's database))
 -   Likes(id(pk), user_id(fk(users.id)), comment_id(fk(comments.id)))
--   Cart(id(pk), created_at(timestamp), user_id(fk, unique))
--   Carts_items(cart_id(pk, fk(cart_id)), item_id(pk, fk to documenu's database), quantity(int))
+-   Carts_items(user_id(pk, fk(users.id)), item_id(pk, fk to documenu's database), quantity(int))
 
 ## User Flow
 
