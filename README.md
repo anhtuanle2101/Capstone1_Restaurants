@@ -44,3 +44,7 @@
 -   Click on the Log in, user will be routed to Login page, where user can type in registered username and correct password, then redirected back to home page.
 -   After typing in a search term/query, click search will route to the page where it shows search results that contain brief information.
 -   To sign up click on the sign up button on the nav bar, where it redirects to a page where users can provide first name, last name, email, password, zip code, birthday(optional) to sign up an account.
+
+## Figma wireframes
+
+-   https://www.figma.com/file/tjitRYR6TGkKwwka3yMtae/Capstone1_Restaurants_Wireframes?node-id=0%3A1
