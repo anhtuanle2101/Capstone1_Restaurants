@@ -47,3 +47,7 @@
 ## Figma wireframes
 
 -   https://www.figma.com/file/tjitRYR6TGkKwwka3yMtae/Capstone1_Restaurants_Wireframes?node-id=0%3A1
+
+## Database Schema 
+
+-   https://dbdiagram.io/embed/6037f78bfcdcb6230b218a83

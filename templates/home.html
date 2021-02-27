@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+{% if zip_code %}
+<hr class='my-3'>
+<div class="container">
+    <h1 class='display-6 font-weight-bold'>Restaurants</h1>
+    <h2 class='display-6'>Zip Code: {{zip_code}}</h1>
+    <div class="cards-list">
+        <div class="row">
+            {% for i in range(12) %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card my-3" >
+                    <img class="card-img-top w-100" src="{{businesses[i]['image_url']}}" alt="Card image cap">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 col-sm-12">
+                                <p class="card-text font-weight-bold">{{businesses[i]['name']}}</p>
+                                <p class="card-text">Rating: {{businesses[i]['rating']}}</p>
+                            </div>
+                            <div class="col-6 col-sm-8">
+                                <p class="card-text">Price Range: {{businesses[i]['price']}}</p>
+                                <p class="card-text">Phone: {{businesses[i]['phone']}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p class="card-text">{{businesses[i]['location']['address1']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<hr class='my-3'>
+{% else %}
+<hr class='my-3'>
+<div class="container">
+    <h1 class='display-6 font-weight-bold'>Enter a Zipcode to Start Exploring</h1>
+    <form action="" >
+        <div class="row my-3">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <input type="text" class='search form-control' name='location' id='location_2' placeholder='Zipcode here..'>
+                </div>
+            </div>
+                <div class="col-md-4">
+                    <button class='btn search-btn'>Explore</button>
+                </div>
+        </div>
+    </form>
+</div>
+<hr class='my-3'>
+{% endif %}
+{% endblock %}

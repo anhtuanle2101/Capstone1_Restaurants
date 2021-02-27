@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins';
+}
+
+/* navbar */
+
+.navbar {
+    padding-top: 10px;
+    background-color: #E3725A;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-link {
+    margin: 10px 20px;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: all 0.2s linear;
+}
+
+.nav-link:hover,
+.footer-nav-items:hover,
+.search-btn:hover {
+    background-color: rgb(224, 87, 56);
+    transform: translateY(-2px);
+    color: #D41413;
+    text-decoration: none;
+    text-shadow: 0 5px 0 #FFA400;
+}
+
+/* footer */
+footer {
+    padding-top: 20px;
+
+}
+
+.footer-nav {
+    display: grid;
+    place-content: center;
+}
+
+.footer-nav-items {
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid #FFA400;
+
+    color: #E3725A;
+    display: grid;
+    place-items: center;
+}
+
+.sites-map,
+.contact-info {
+    height: 300px;
+    display: grid;
+    place-items: center;
+    border-right: 0.1rem solid #FFA400;
+}
+
+.about-info {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-right: 0.1rem solid #FFA400;
+}
+
+.footer-logo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #D41413;
+    transition: all 0.2s linear;
+}
+
+.footer-logo i {
+    margin-right: 0.5rem;
+    color: #E3725A;
+}
+
+.footer-logo:hover {
+    text-decoration: none;
+    color: #E3725A;
+
+}
+
+.footer-image-container {
+    padding: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.footer-image-container img {
+    width: 100%;
+    height: 100%;
+}
+
+.search {
+    width: 100%;
+    height: 50px;
+    font-weight: normal;
+    border: 1px solid black;
+}
+
+.search-btn {
+    height: 50px;
+    width: 100%;
+    background-color: #E3725A;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.lead {
+    position: relative;
+    color: black;
+    margin-top: 2px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.card-img-top {
+    height: 100px;
+    width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}

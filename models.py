@@ -22,7 +22,7 @@ class User(db.Model):
     zip_code = db.Column(db.String(5), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     birth_date = db.Column(db.DateTime)
-    image_url = db.Column(db.DateTime, nullable=False, default='/static/images/default-pic.png')
+    image_url = db.Column(db.Text, nullable=False, default='/static/images/default-pic.png')
 
     favorites = db.relationship('Favorite')
     
@@ -30,24 +30,29 @@ class User(db.Model):
 
     likes = db.relationship('Like')
 
+    searches = db.relationship('Search_History')
+
+    carts = db.relationship('Cart')
+
+    def __repr__(self):
+        return f'<User {self.id} {self.first_name} {self.last_name} {self.email} {self.zip_code} {self.birth_date}>'
+
     @classmethod
-    def signup(cls, first_name, last_name, password, email, zip_code, birth_date):
+    def signup(cls, first_name, last_name, password, email, zip_code):
         u = cls.query.filter(User.email == email).first()
         if u:
+            return False
+        else:
             hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
             u = cls(
                 first_name= first_name,
                 last_name= last_name,
                 password= hashed_pwd,
                 email= email,
-                zip_code= zipcode,
-                birth_date= birth_date
+                zip_code= zip_code
             )
             db.session.add(u)
-            db.session.commit()
             return u
-        else:
-            return False
     
     @classmethod
     def authenticate(cls, email, password):
@@ -96,14 +101,35 @@ class Like(db.Model):
     user = db.relationship('User')
     comment = db.relationship('Comment')
 
+class Cart(db.Model):
+    """Collection of carts that a user associate with"""
+    
+    __tablename__ = "carts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+
+    user = db.relationship('User', backref='carts')
+
 class Cart_Items(db.Model):
-    """Cart of items Collection which each user have a unique cart of items"""
+    """Cart of items Collection which each user have history of carts of items"""
 
     __tablename__ = 'cart_items'
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), primary_key=True)
+    item_id = db.Column(db.Integer, db.ForeignKey('carts.id', ondelete='cascade'), primary_key=True)
+    cart_id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+
+class Search_History(db.Model):
+    """Search history Collection"""
+
+    __tablename__ = 'searches'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    term = db.Column(db.Text, nullable=False)
+    location = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    item_id = db.Column(db.Integer, nullable=False)
-    quantity = db.Column(db.Integer, nullable=False, default=1)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
 
     user = db.relationship('User')
