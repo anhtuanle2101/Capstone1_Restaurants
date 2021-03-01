@@ -139,8 +139,39 @@ footer {
 }
 
 .card-img-top {
-    height: 100px;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
+}
+
+.image-container {
+    max-height: 180px;
+    position: relative;
     overflow: hidden;
+}
+
+.favorite-btn {
+    color: #FFA400;
+    text-shadow: 2px 2px 0 black;
+    opacity: 0.8;
+    position: absolute;
+    margin-right: 10px;
+    margin-top: 10px;
+    top: 0;
+    right: 0;
+    font-size: 1.2rem;
+    transition: all 0.2s linear;
+}
+
+.favorite-btn:hover {
+    opacity: 1;
+    transform: scale(1.2);
+    text-shadow: 3px 3px 0 black;
+}
+
+.restaurant-cards {
+    height: 500px;
+}
+
+.login {
+    min-height: 100vh;
 }

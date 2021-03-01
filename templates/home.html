@@ -12,22 +12,54 @@
         <div class="row">
             {% for i in range(12) %}
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card my-3" >
-                    <img class="card-img-top w-100" src="{{businesses[i]['image_url']}}" alt="Card image cap">
+                <div class="card my-3 restaurant-cards" >
+                    <div class="image-container">
+                        <img class="card-img-top w-100" src="{{businesses[i]['image_url']}}" alt="Card image cap">
+                        <i class="favorite-btn fas fa-heart"></i>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6 col-sm-12">
-                                <p class="card-text font-weight-bold">{{businesses[i]['name']}}</p>
-                                <p class="card-text">Rating: {{businesses[i]['rating']}}</p>
+                                <h4 class="display-6 card-text font-weight-bold">{{businesses[i]['name']}}</h4>
+                                <p class="card-text">
+                                    <span class="font-weight-bold">Rating:</span> 
+                                    
+                                    {% if businesses[i]['rating'] % 1 == 0%}
+                                        {% for i in range(math.floor(businesses[i]['rating'])) %}
+                                            <i class="fas fa-star"></i>
+                                        {% endfor %}
+                                        {% for i in range(5-math.floor(businesses[i]['rating'])) %}
+                                            <i class="far fa-star"></i>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for i in range(math.floor(businesses[i]['rating']-0.5)) %}
+                                            <i class="fas fa-star"></i>
+                                        {% endfor %}
+                                        <i class="fas fa-star-half"></i>
+                                        {% for i in range(4-math.floor(businesses[i]['rating'])) %}
+                                            <i class="far fa-star"></i>
+                                        {% endfor %}
+                                    {% endif %}
+                                    ({{businesses[i]['rating']}})
+                                </p>
                             </div>
                             <div class="col-6 col-sm-8">
-                                <p class="card-text">Price Range: {{businesses[i]['price']}}</p>
-                                <p class="card-text">Phone: {{businesses[i]['phone']}}</p>
+                                <p class="card-text"><span class="font-weight-bold">
+                                    {% if businesses[i]['price'] %}
+                                        Price Range:</span>
+                                        {% for i in range(businesses[i]['price'] | length) %}
+                                            <i class="fas fa-dollar-sign"></i>
+                                        {% endfor %}
+                                    {% else %}
+                                        Price Range Unavailable
+                                    {% endif %}
+                                </p>
+                                <p class="card-text"><span class="font-weight-bold">Phone:</span> {{businesses[i]['phone']}}</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="card-text">{{businesses[i]['location']['address1']}}</p>
+                                <p class="card-text font-weight-bold">{{businesses[i]['location']['address1']}}, {{businesses[i]['location']['city']}} {{businesses[i]['location']['state']}} {{businesses[i]['location']['zip_code']}}</p>
                             </div>
                         </div>
                     </div>

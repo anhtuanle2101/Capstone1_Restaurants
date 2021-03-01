@@ -3,9 +3,11 @@ import os
 from flask import Flask, flash, session, redirect, g, render_template, request, jsonify
 from secrets import APP_SECRET_KEY, YELP_API_KEY
 import requests
+import math
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from models import connect_db, db
+from forms import LogInForm, SignUpForm
 
 app = Flask(__name__)
 
@@ -23,6 +25,7 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+#User login/logout
 @app.before_request
 def add_user_to_g():
     """Check if the user is logged in, then set the g.user in global `g`."""
@@ -41,6 +44,11 @@ def do_logout():
         del session[CURR_USER_KEY]
 
 # User routes log-in, sign-up, log-out
+@app.route('/login')
+def login():
+    form = LogInForm()
+
+    return render_template('/user/login.html')
 
 @app.route('/')
 def home_page():
@@ -49,7 +57,7 @@ def home_page():
     
     res = requests.get(f'{YELP_URL}/businesses/search', params={'term':term, 'location':location, 'limit':12}, headers={'Authorization': f'Bearer {YELP_API_KEY}'})
     businesses = res.json()['businesses']
-    return render_template('home.html', zip_code='30044', businesses=businesses)
+    return render_template('home.html', zip_code='30044', businesses=businesses, math=math)
 
 # API requests
 @app.route('/restaurants')

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<div class="container login">
+    <h1 class='font-weight-bold display-6 text-center'>Login</h1>
+    <form action="" class='m-4'>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-5 my-2">
+                    <input type="text" class='search form-control' name='email' id='email_login' placeholder='Email'>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-5 my-2">
+                    <input type="password" class='search form-control' name='password' id='password_login' placeholder='Password'> 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <button class='btn search-btn'>Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
