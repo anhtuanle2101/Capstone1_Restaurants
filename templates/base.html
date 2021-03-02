@@ -14,49 +14,40 @@
     <header>
         <nav class="navbar navbar-expand-md">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#">
+              <a class="navbar-brand nav-link d-inline" href="#">
                   <img src="/static/images/logo.svg" class='logo' alt="Logo">
+                  <span class="font-weight-bold ml-2 display-5">RestaurantS</span> 
               </a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav container-fluid">
-                  <a class="nav-link" aria-current="page" href="#">Home</a>
-                  <a class="nav-link" href="#">Features</a>
-                  <a class="nav-link" href="#">Sign Up</a>
-                  <a class="nav-link" href="#">Sign In</a>
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="#">Features</a>
+                    {% if 'curr_user' in session %}
+                    <a class="nav-link" href="/users/{{session['curr_user']}}">Account</a>
+                    <form action="/logout" method='POST'>
+                        <button class='nav-link'>Log Out</button>
+                    </form>
+                    {% else %}
+                    <a class="nav-link" href="/register">Sign Up</a>
+                    <a class="nav-link" href="/login">Sign In</a>
+                    {% endif %}
                 </div>
               </div>
             </div>
         </nav>
-        <div class="container-fluid" >
-            <div class="jumbotron" style='background:url("/static/images/restaurant_banner_3.jpg") no-repeat center; background-size:cover'>
-                <h1 class="display-6 font-weight-bold d-inline">Feeling Hungry Yet!?</h1>
-                <p class="lead">Still finding for a recommendation?</p>
-                <form action="" class='mt-4'>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-5 my-2">
-                                <input type="text" class='search form-control' name='search' id='search' placeholder='Search Here... (Name, Cuisines, etc..)'>
-                            </div>
-                            <div class="col-md-5 my-2">
-                                <input type="text" class='search form-control' name='location' id='location_1' placeholder='Location Here... (Addresses, etc..)'> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <button class='btn search-btn'>Search</button>
-                        </div>
-                    </div>
-                </form>
-              </div>
-        </div>
+        
     </header>
+    <div class="container">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% block content %}
+        {% endblock %}
+    </div>
     
-    {% block content %}
-    {% endblock %}
     <footer>
         <div class="container container-fluid">
             <div class="row">

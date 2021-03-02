@@ -26,6 +26,8 @@ body {
 }
 
 .nav-link {
+    background-color: inherit;
+    border: none;
     margin: 10px 20px;
     color: white;
     display: grid;
@@ -140,7 +142,8 @@ footer {
 
 .card-img-top {
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    height: 20vh;
 }
 
 .image-container {
@@ -169,9 +172,26 @@ footer {
 }
 
 .restaurant-cards {
-    height: 500px;
+    height: 400px;
+}
+
+.restaurants-cards-results {
+    height: 200px;
 }
 
 .login {
-    min-height: 100vh;
+    min-height: 70vh;
+}
+
+.carousel-images {
+    height: 70vh;
+    width: 100%;
+    object-fit: cover;
+    transition: all 0.2s linear;
+}
+
+.carousel-container {
+    width: 500px;
+    display: grid;
+    place-items: center;
 }

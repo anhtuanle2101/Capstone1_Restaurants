@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Log In{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
-<hr class="my-3">
-<div class="container login">
-    <h1 class='font-weight-bold display-6 text-center'>Login</h1>
-    <form action="/login" method='POST' class='m-4'>
+<hr class='my-3'>
+<div class="container login mt-2">
+    <h1 class='font-weight-bold display-6 text-center'>Sign Up</h1>
+    <form action="/register" method='POST' class='m-4'>
         {{form.hidden_tag()}}
         {% for field in form if field.widget.input_type != 'hidden' %}
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-5 my-2">
+                    <div class="col-md-5 my">
                         {% for err in field.errors %}
                         <span class='text-danger'>{{err}}</span>
                         {% endfor %}
@@ -23,15 +23,15 @@
         {% endfor %}
         <div class="row">
             <div class="col">
-                <span mb-2>Don't have an account? <a href="/register">Register Here</a> </span> 
+                <span mb-2>Already have an account?  <a href="/login">Sign In Here!</a> </span> 
             </div>
         </div>
         <div class="row">
             <div class="col-md-5">
-                <button class='btn search-btn'>Search</button>
+                <button class='btn search-btn'>Register</button>
             </div>
         </div>
     </form>
 </div>
-<hr class="my-3">
+<hr class='my-3'>
 {% endblock %}

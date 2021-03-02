@@ -38,7 +38,7 @@ class User(db.Model):
         return f'<User {self.id} {self.first_name} {self.last_name} {self.email} {self.zip_code} {self.birth_date}>'
 
     @classmethod
-    def signup(cls, first_name, last_name, password, email, zip_code):
+    def signup(cls, first_name, last_name, password, email, birth_date, zip_code, image_url):
         u = cls.query.filter(User.email == email).first()
         if u:
             return False
@@ -49,14 +49,16 @@ class User(db.Model):
                 last_name= last_name,
                 password= hashed_pwd,
                 email= email,
-                zip_code= zip_code
+                birth_date=birth_date or None,
+                zip_code= zip_code,
+                image_url= image_url
             )
             db.session.add(u)
             return u
     
     @classmethod
     def authenticate(cls, email, password):
-        u = cls.query.filter(User.email == email).first()
+        u = User.query.filter(User.email == email).first()
         if u:
             is_auth = bcrypt.check_password_hash(u.password, password)
             if is_auth:
@@ -110,7 +112,7 @@ class Cart(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
 
-    user = db.relationship('User', backref='carts')
+    user = db.relationship('User')
 
 class Cart_Items(db.Model):
     """Cart of items Collection which each user have history of carts of items"""

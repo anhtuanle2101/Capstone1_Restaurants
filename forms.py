@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField
-from wtforms.validators import Length, DataRequired, Email
+from wtforms.validators import Length, DataRequired, Email, Optional
 
 NAME_VALIDATOR_MSG = 'Length is out of range (50 chars max)'
 EMAIL_VALIDATOR_MSG = 'Must be a valid E-mail!'
@@ -14,7 +14,7 @@ class SignUpForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email(message=EMAIL_VALIDATOR_MSG)])
     password = PasswordField('Password', validators=[DataRequired(), Length(message=PASSWORD_VALIDATOR_MSG, min=6, max=30)])
     zip_code = StringField('Zip Code', validators=[DataRequired(), Length(min=5, max=5, message=ZIPCODE_VALIDATOR_MSG)])
-    birth_date = DateField('Birth Date(Optional)')
+    birth_date = DateField('Birth Date(Optional)', validators=[Optional()])
     image_url = StringField('Image URL')
 
 class LogInForm(FlaskForm):
