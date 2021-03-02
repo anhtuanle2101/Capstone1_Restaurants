@@ -91,9 +91,23 @@ def register():
 @app.route('/logout', methods=['POST'])
 def logout():
     do_logout()
-    
+
     flash('Log out Successfully', 'success')
     return redirect('/')
+
+@app.route('/users/<int:user_id>')
+def profile(user_id):
+    if g.user:
+        user = User.query.get_or_404(user_id)
+        return render_template('/user/profile.html', user=user)
+    flash('Unauthorized Access!, Please Sign In First!','danger')
+    return redirect('/login')
+
+@app.route('/restaurants/<business_id>')
+def restaurant_details(business_id):
+    res = requests.get(f'{YELP_URL}/businesses/{business_id}', headers={'Authorization': f'Bearer {YELP_API_KEY}'})
+    business = res.json()
+    return render_template('/business/detail.html', business=business, math=math)
 
 @app.route('/')
 def home_page():
@@ -102,6 +116,7 @@ def home_page():
         res = requests.get(f'{YELP_URL}/businesses/search', params={'term':'restaurants', 'location':location, 'limit':12}, headers={'Authorization': f'Bearer {YELP_API_KEY}'})
         businesses = res.json()['businesses']
         return render_template('home.html', businesses=businesses, zip_code=location, math=math)
+    return render_template('home.html')
 
 @app.route('/search')
 def search_results():
@@ -109,8 +124,12 @@ def search_results():
     location = request.args.get('location')
 
     res = requests.get(f'{YELP_URL}/businesses/search', params={'term':term, 'location':location, 'limit':12}, headers={'Authorization': f'Bearer {YELP_API_KEY}'})
-    businesses = res.json()['businesses']
-    return render_template('search.html', location=location, term=term, businesses=businesses, math=math)
+    if (res.json().get('error', None)):
+        flash(f'{res.json()["error"]["description"]}', 'danger')
+        return redirect('/')
+    else:
+        businesses = res.json()['businesses']
+        return render_template('search.html', location=location, term=term, businesses=businesses, math=math)
 
 # API requests
 @app.route('/restaurants')

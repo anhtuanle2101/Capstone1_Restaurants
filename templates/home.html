@@ -45,7 +45,14 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <h4 class="display-6 card-title font-weight-bold">{{businesses[i]['name']}}</h4>
+                                <h4 class="display-6 card-title font-weight-bold">
+                                    {{businesses[i]['name']}}
+                                    <!-- {% if not businesses[i]['is_closed'] %}
+                                        (Opening) 
+                                    {%else%} 
+                                        (Closed) 
+                                    {% endif %} -->
+                                </h4>
                             </div>
                             
                         </div>

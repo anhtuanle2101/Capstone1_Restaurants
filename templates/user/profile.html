@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<hr class='my-3'>
+    <h1 class='font-weight-bold display-6 text-center'>Account</h1>
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="image-container my-3">
+                        <img src="{{user.image_url}}" class="card-img-top" alt="User Logo">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+                        <p class="card-text">{{user.email}}</p>
+                      </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Zip Code: {{user.zip_code}}</li>
+                        {% if user.birth_date %}
+                          <li class="list-group-item">Birth Date: {{user.birth_date}}</li>
+                        {% endif %}
+                      </ul>
+                      <div class="card-body">
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                      </div>
+                </div>
+            </div>
+            
+          </div>
+    </div>
+<hr class='my-3'>
+{% endblock %}

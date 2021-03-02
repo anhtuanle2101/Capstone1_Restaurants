@@ -13,6 +13,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card my-3 restaurant-cards-results" >
+                        <a href="/restaurants/{{businesses[i]['id']}}" style='text-decoration:none;color:black'>
                         <div class="row no-gutters">
                             <div class="col-md-4">
                                 <div class="image-container">
@@ -24,7 +25,14 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h4 class="display-6 card-text font-weight-bold">{{businesses[i]['name']}}</h4>
+                                            <h4 class="display-6 card-text font-weight-bold">
+                                                {{businesses[i]['name']}} 
+                                                <!-- {% if not businesses[i]['is_closed'] %}
+                                                    (Opening) 
+                                                {%else%} 
+                                                    (Closed) 
+                                                {% endif %} -->
+                                            </h4>
                                             <p class="card-text">
                                                 <span class="font-weight-bold">Rating:</span> 
                                                 
@@ -64,6 +72,7 @@
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>

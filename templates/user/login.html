@@ -5,7 +5,7 @@
 {% block content %}
 <hr class="my-3">
 <div class="container login">
-    <h1 class='font-weight-bold display-6 text-center'>Login</h1>
+    <h1 class='font-weight-bold display-6 text-center'>Sign In</h1>
     <form action="/login" method='POST' class='m-4'>
         {{form.hidden_tag()}}
         {% for field in form if field.widget.input_type != 'hidden' %}
