@@ -25,7 +25,9 @@ body {
     justify-content: flex-end;
 }
 
+
 .nav-link {
+    cursor: pointer;
     background-color: inherit;
     border: none;
     margin: 10px 20px;
@@ -36,6 +38,7 @@ body {
     font-weight: bold;
     transition: all 0.2s linear;
 }
+
 
 .nav-link:hover,
 .footer-nav-items:hover,

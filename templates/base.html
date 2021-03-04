@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-md">
             <div class="container-fluid">
-              <a class="navbar-brand nav-link d-inline" href="#">
+              <a class="navbar-brand nav-link d-inline" href="/">
                   <img src="/static/images/logo.svg" class='logo' alt="Logo">
                   <span class="font-weight-bold ml-2 display-5">RestaurantS</span> 
               </a>
@@ -27,7 +27,7 @@
                     <a class="nav-link" href="#">Features</a>
                     {% if 'curr_user' in session %}
                     <a class="nav-link" href="/users/{{session['curr_user']}}">Account</a>
-                    <form action="/logout" method='POST'>
+                    <form action="/logout" method='POST' style='display:grid; place-items:center'>
                         <button class='nav-link'>Log Out</button>
                     </form>
                     {% else %}
