@@ -3,7 +3,7 @@
 {% block title %}Favorites{% endblock %}
 
 {% block show %}
-<!-- <div class="container">
+<div class="container">
     <h1 class='display-6 font-weight-bold'>Favorites:</h1>
     <div class="cards-list">
         {% for i in range((businesses | length)) %}
@@ -15,7 +15,15 @@
                             <div class="col-md-4">
                                 <div class="image-container">
                                     <img class="card-img-top w-100" src="{{businesses[i]['image_url']}}" alt="Card image cap">
-                                    <i class="favorite-btn fas fa-heart"></i>
+                                    {% if businesses[i]['id'] not in favorites %}
+                                    <form action="/users/add_favorite/{{businesses[i]['id']}}" method='POST'>
+                                        <button><i class="favorite-btn fas fa-heart"></i></button>
+                                    </form>
+                                    {% else %}
+                                    <form action="/users/remove_favorite/{{businesses[i]['id']}}" method='POST'>
+                                        <button><i class="unfavorite-btn fas fa-heart"></i></button>
+                                    </form>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -68,7 +76,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <p class="card-text font-weight-bold">{{businesses[i]['location']['address1']}}, {{businesses[i]['location']['city']}} {{businesses[i]['location']['state']}} {{businesses[i]['location']['zip_code']}}</p>
+                                            <p class="card-text font-weight-bold">{{businesses[i]['location']}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -79,5 +87,6 @@
                 </div>
             </div>
         {% endfor %}
-    </div> -->
+    </div>
+</div>
 {% endblock %}

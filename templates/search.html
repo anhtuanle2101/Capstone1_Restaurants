@@ -3,7 +3,35 @@
 {% block title %}Search Results{% endblock %}
 
 {% block content %}
-{% if location %}
+
+<hr class='my-3'>
+<div class="container-fluid" >
+    <div class="jumbotron" style='background:url("/static/images/restaurant_banner_3.jpg") no-repeat center; background-size:cover'>
+        <h1 class="display-6 font-weight-bold d-inline">Feeling Hungry Yet!?</h1>
+        <p class="lead">Still finding for a recommendation?</p>
+        <form action="/search" class='mt-4' method='POST'>
+            {{search_form.hidden_tag()}}
+            <div class="form-group">
+                <div class="row">
+                {% for field in search_form if field.widget.input_type != 'hidden' %}
+                    <div class="col-md-6 my-2">
+                        {% for err in field.errors %}
+                        <span class='text-danger'>{{err}}</span>
+                        {% endfor %}
+                        {{field(class_='search form-control', placeholder=field.label.text)}}
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <button class='btn search-btn'>Search</button>
+                </div>
+            </div>
+        </form>
+      </div>
+</div>
+{% if term and location %}
 <hr class='my-3'>
 <div class="container">
     <h1 class='display-6 font-weight-bold'>Restaurants Results:</h1>
@@ -113,24 +141,6 @@
                   </div>
     </div>
     
-</div>
-<hr class='my-3'>
-{% else %}
-<hr class='my-3'>
-<div class="container">
-    <h1 class='display-6 font-weight-bold'>Enter a Zipcode to Start Exploring</h1>
-    <form action="" >
-        <div class="row my-3">
-            <div class="col-md-8">
-                <div class="form-group">
-                    <input type="text" class='search form-control' name='location' id='location_2' placeholder='Zipcode here..'>
-                </div>
-            </div>
-                <div class="col-md-4">
-                    <button class='btn search-btn'>Explore</button>
-                </div>
-        </div>
-    </form>
 </div>
 <hr class='my-3'>
 {% endif %}

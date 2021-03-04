@@ -8,15 +8,18 @@
     <div class="jumbotron" style='background:url("/static/images/restaurant_banner_3.jpg") no-repeat center; background-size:cover'>
         <h1 class="display-6 font-weight-bold d-inline">Feeling Hungry Yet!?</h1>
         <p class="lead">Still finding for a recommendation?</p>
-        <form action="/search" class='mt-4'>
+        <form action="/search" class='mt-4' method='POST'>
+            {{search_form.hidden_tag()}}
             <div class="form-group">
                 <div class="row">
+                {% for field in search_form if field.widget.input_type != 'hidden' %}
                     <div class="col-md-6 my-2">
-                        <input type="text" class='search form-control' name='term' id='term' placeholder='Search Here... (Name, Cuisines, etc..)'>
+                        {% for err in field.errors %}
+                        <span class='text-danger'>{{err}}</span>
+                        {% endfor %}
+                        {{field(class_='search form-control', placeholder=field.label.text)}}
                     </div>
-                    <div class="col-md-6 my-2">
-                        <input type="text" class='search form-control' name='location' id='location_1' placeholder='Location Here... (Addresses, etc..)'> 
-                    </div>
+                {% endfor %}
                 </div>
             </div>
             <div class="row">
@@ -40,7 +43,15 @@
                     <a href="/restaurants/{{businesses[i]['id']}}" style='text-decoration:none;color:black'>
                     <div class="image-container">
                         <img class="card-img-top w-100" src="{{businesses[i]['image_url']}}" alt="Card image cap">
-                        <i class="favorite-btn fas fa-heart"></i>
+                        {% if businesses[i]['id'] not in favorites %}
+                        <form action="/users/add_favorite/{{businesses[i]['id']}}" method='POST'>
+                            <button><i class="favorite-btn fas fa-heart"></i></button>
+                        </form>
+                        {% else %}
+                        <form action="/users/remove_favorite/{{businesses[i]['id']}}" method='POST'>
+                            <button><i class="unfavorite-btn fas fa-heart"></i></button>
+                        </form>
+                        {% endif %}
                     </div>
                     <div class="card-body">
                         <div class="row">

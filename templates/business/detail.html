@@ -7,82 +7,82 @@
 <hr class="my-3">
 <div class="container-fluid">
     <div class="card mb-3">
-        {% with bg_image=business['image_url'] %}
+        {% with bg_image=business.image_url %}
         <div class="jumbotron" style='background:url({{bg_image}}) no-repeat center; background-size:cover'>
         {% endwith %}
         </div>
         <div class="card-body">
-            <h2 class="card-title font-weight-bold">{{business['name']}}</h5>
+            <h2 class="card-title font-weight-bold">{{business.name}}</h5>
             <div class="row">
                 <div class="col-md-6">
                     <h2 class='display-5'>About</h2>
                     <p class="card-text">Rating 
-                        {% if business['rating'] % 1 == 0%}
-                            {% for i in range(math.floor(business['rating'])) %}
+                        {% if business.rating % 1 == 0%}
+                            {% for i in range(math.floor(business.rating)) %}
                                 <i class="fas fa-star"></i>
                             {% endfor %}
-                            {% for i in range(5-math.floor(business['rating'])) %}
+                            {% for i in range(5-math.floor(business.rating)) %}
                                 <i class="far fa-star"></i>
                             {% endfor %}
                         {% else %}
-                            {% for i in range(math.floor(business['rating']-0.5)) %}
+                            {% for i in range(math.floor(business.rating-0.5)) %}
                                 <i class="fas fa-star"></i>
                             {% endfor %}
                             <i class="fas fa-star-half"></i>
-                            {% for i in range(4-math.floor(business['rating'])) %}
+                            {% for i in range(4-math.floor(business.rating)) %}
                                 <i class="far fa-star"></i>
                             {% endfor %}
                         {% endif %}
-                        ({{business['rating']}})
+                        ({{business.rating}})
                     </p>
                     <p class="card-text"><span class="">
-                        {% if business['price'] %}
+                        {% if business.price %}
                             Price Range:</span>
-                            {% for i in range(business['price'] | length) %}
+                            {% for i in range(business.price | length) %}
                                 <i class="fas fa-dollar-sign"></i>
                             {% endfor %}
                         {% else %}
                             Price Range Unavailable
                         {% endif %}
                     </p>
-                    <p class="card-text"><span class="">Phone:</span> {{business['phone']}}</p>
-                    <p class="card-text">Address: {{business['location']['address1']}}, {{business['location']['city']}} {{business['location']['state']}} {{business['location']['zip_code']}}</p>
+                    <p class="card-text"><span class="">Phone:</span> {{business.phone}}</p>
+                    <p class="card-text">Address: {{business['location']}}</p>
                 </div>
                 <div class="col-md-6">
                     <h2 class='display-6'>Hours</h2>
-                    {% if business['hours'] %}
-                    {% if business['hours'][0]['open'][0] %}
-                    <p class="card-text">Monday: {{business['hours'][0]['open'][0]['start']}}-{{business['hours'][0]['open'][0]['end']}}</p>
+                    {% if hours %}
+                    {% if hours[0] %}
+                    <p class="card-text">Monday: {{hours[0][1:5]}}-{{hours[0][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Monday: Closed</p>
                     {% endif %}
-                    {% if business['hours'][0]['open'][1] %}
-                    <p class="card-text">Tuesday: {{business['hours'][0]['open'][1]['start']}}-{{business['hours'][0]['open'][1]['end']}}</p>
+                    {% if hours[1] %}
+                    <p class="card-text">Tuesday: {{hours[1][1:5]}}-{{hours[1][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Tuesday: Closed</p>
                     {% endif %}
-                    {% if business['hours'][0]['open'][2] %}
-                    <p class="card-text">Wednesday: {{business['hours'][0]['open'][2]['start']}}-{{business['hours'][0]['open'][2]['end']}}</p>
+                    {% if hours[2] %}
+                    <p class="card-text">Wednesday: {{hours[2][1:5]}}-{{hours[2][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Wednesday: Closed</p>
                     {% endif %}
-                    {% if business['hours'][0]['open'][3] %}
-                    <p class="card-text">Thursday: {{business['hours'][0]['open'][3]['start']}}-{{business['hours'][0]['open'][3]['end']}}</p>
+                    {% if hours[3] %}
+                    <p class="card-text">Thursday: {{hours[3][1:5]}}-{{hours[3][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Thursday: Closed</p>
                     {% endif %}
-                    {% if business['hours'][0]['open'][4] %}
-                    <p class="card-text">Friday: {{business['hours'][0]['open'][4]['start']}}-{{business['hours'][0]['open'][4]['end']}}</p>
+                    {% if hours[4] %}
+                    <p class="card-text">Friday: {{hours[4][1:5]}}-{{hours[4][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Friday: Closed</p>
                     {% endif %}
-                    {% if business['hours'][0]['open'][5] %}
-                    <p class="card-text">Saturday: {{business['hours'][0]['open'][5]['start']}}-{{business['hours'][0]['open'][5]['end']}}</p>
+                    {% if hours[5] %}
+                    <p class="card-text">Saturday: {{hours[5][1:5]}}-{{hours[5][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Saturday: Closed</p>
                     {% endif %}
-                    {% if business['hours'][0]['open'][6] %}
-                    <p class="card-text">Sunday: {{business['hours'][0]['open'][6]['start']}}-{{business['hours'][0]['open'][6]['end']}}</p>
+                    {% if hours[6] %}
+                    <p class="card-text">Sunday: {{hours[6][1:5]}}-{{hours[6][5:9]}}</p>
                     {% else %}
                     <p class="card-text">Sunday: Closed</p>
                     {% endif %}
@@ -106,7 +106,37 @@
             <div class="row">
                 <div class="col">
                     <h2 class='display-5'>Comments</h2>
-
+                    <div class="container comments-list">
+                        {% for comment in comments %}
+                        <div class="comment card my-2">
+                            <h4 class="card-title">{{comment.user.first_name}} {{comment.user.last_name}}</h4>
+                            <div class="card-body">
+                                <p class="card-text">{{comment.message}}</p>
+                                <p class="card-text text-mute">{{comment.created_at}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <form action="/restaurants/{{business['id']}}" method='POST'>
+                        {{comment_form.hidden_tag()}}
+                        <div class="form-group">
+                            <div class="row">
+                            {% for field in comment_form if field.widget.input_type != 'hidden' %}
+                                <div class="col-md-6 my-2">
+                                    {% for err in field.errors %}
+                                    <span class='text-danger'>{{err}}</span>
+                                    {% endfor %}
+                                    {{field(class_='search form-control', placeholder=field.label.text)}}
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class='btn search-btn'>Add Comment</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

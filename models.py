@@ -24,11 +24,11 @@ class User(db.Model):
     birth_date = db.Column(db.DateTime)
     image_url = db.Column(db.Text, nullable=False, default='/static/images/default-pic.png')
 
-    favorites = db.relationship('Favorite')
+    favorites = db.relationship('Business',secondary='favorites')
     
     comments = db.relationship('Comment')
 
-    likes = db.relationship('Like')
+    likes = db.relationship('Comment', secondary='likes')
 
     searches = db.relationship('Search_History')
 
@@ -72,9 +72,26 @@ class Favorite(db.Model):
     __tablename__ = 'favorites'
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), primary_key=True)
-    business_id = db.Column(db.Text, primary_key=True)
+    business_id = db.Column(db.Text, db.ForeignKey('businesses.id',ondelete='cascade'), primary_key=True)
 
     user = db.relationship('User')
+
+class Business(db.Model):
+    """Businesses collection scraped from Yelp Database"""
+
+    __tablename__ = 'businesses'
+
+    id = db.Column(db.Text, primary_key=True)
+    name = db.Column(db.Text)
+    image_url = db.Column(db.Text)
+    url = db.Column(db.Text)
+    phone = db.Column(db.Text)
+    rating = db.Column(db.Float)
+    location = db.Column(db.Text)
+    price = db.Column(db.Text)
+    hours = db.Column(db.Text)
+
+    comments = db.relationship('Comment')
 
 class Comment(db.Model):
     """Comments collection => Users can comment on businesses"""
@@ -85,9 +102,11 @@ class Comment(db.Model):
     message = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-    business_id = db.Column(db.Text, nullable=False)
+    business_id = db.Column(db.Text, db.ForeignKey('businesses.id',ondelete='cascade'), nullable=False)
 
     user = db.relationship('User')
+
+    business = db.relationship('Business')
 
     likes = db.relationship('Like')
     

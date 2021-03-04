@@ -42,7 +42,8 @@ body {
 
 .nav-link:hover,
 .footer-nav-items:hover,
-.search-btn:hover {
+.search-btn:hover,
+.comment-btn:hover {
     background-color: rgb(224, 87, 56);
     transform: translateY(-2px);
     color: #D41413;
@@ -118,14 +119,17 @@ footer {
     height: 100%;
 }
 
-.search {
+.search,
+.comments {
     width: 100%;
     height: 50px;
     font-weight: normal;
     border: 1px solid black;
 }
 
-.search-btn {
+.search-btn,
+.comment-btn {
+    margin-top: 5px;
     height: 50px;
     width: 100%;
     background-color: #E3725A;
@@ -155,7 +159,7 @@ footer {
 }
 
 .favorite-btn {
-    color: #FFA400;
+    color: black;
     text-shadow: 2px 2px 0 black;
     opacity: 0.8;
     position: absolute;
@@ -170,7 +174,28 @@ footer {
 .favorite-btn:hover {
     opacity: 1;
     transform: scale(1.2);
+    color: #D41413;
     text-shadow: 3px 3px 0 black;
+}
+
+.unfavorite-btn {
+    color: #D41413;
+    text-shadow: 2px 2px 0 black;
+    opacity: 1;
+    position: absolute;
+    margin-right: 10px;
+    margin-top: 10px;
+    top: 0;
+    right: 0;
+    font-size: 1.2rem;
+    transition: all 0.2s linear;
+}
+
+.unfavorite-btn:hover {
+    opacity: 0.8;
+    color: black;
+    transform: scale(1.2);
+    text-shadow: 3px 3px 0 #D41413;
 }
 
 .restaurant-cards {
@@ -196,4 +221,9 @@ footer {
     width: 500px;
     display: grid;
     place-items: center;
+}
+
+.comment {
+    padding-top: 10px;
+    padding-left: 10px;
 }
