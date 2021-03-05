@@ -32,8 +32,6 @@ class User(db.Model):
 
     searches = db.relationship('Search_History')
 
-    carts = db.relationship('Cart')
-
     def __repr__(self):
         return f'<User {self.id} {self.first_name} {self.last_name} {self.email} {self.zip_code} {self.birth_date}>'
 
@@ -93,6 +91,19 @@ class Business(db.Model):
 
     comments = db.relationship('Comment')
 
+    def serialize(self):
+        return{
+            'id':self.id,
+            'name':self.name,
+            'image_url':self.name,
+            'url':self.url,
+            'phone':self.phone,
+            'rating':self.rating,
+            'location':self.location,
+            'price':self.price,
+            'hours':self.hours
+        }
+
 class Comment(db.Model):
     """Comments collection => Users can comment on businesses"""
 
@@ -122,25 +133,7 @@ class Like(db.Model):
     user = db.relationship('User')
     comment = db.relationship('Comment')
 
-class Cart(db.Model):
-    """Collection of carts that a user associate with"""
-    
-    __tablename__ = "carts"
 
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-
-    user = db.relationship('User')
-
-class Cart_Items(db.Model):
-    """Cart of items Collection which each user have history of carts of items"""
-
-    __tablename__ = 'cart_items'
-
-    item_id = db.Column(db.Integer, db.ForeignKey('carts.id', ondelete='cascade'), primary_key=True)
-    cart_id = db.Column(db.Integer, primary_key=True)
-    quantity = db.Column(db.Integer, nullable=False)
 
 class Search_History(db.Model):
     """Search history Collection"""

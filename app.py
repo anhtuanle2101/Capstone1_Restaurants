@@ -6,7 +6,7 @@ import requests
 import math
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from models import connect_db, db, User, Favorite, Like, Comment, Cart, Cart_Items, Search_History, Business
+from models import connect_db, db, User, Favorite, Like, Comment, Search_History, Business
 from forms import LogInForm, SignUpForm, CommentForm, SearchForm
 
 app = Flask(__name__)
@@ -145,14 +145,12 @@ def profile(user_id):
 @app.route('/users/<int:user_id>/favorites')
 def favorites(user_id):
     '''User Favorites Page'''
-    if not g.user:
-        flash('Unauthorized Access! Please Sign In First!','danger')
-        return redirect('/login')
-    businesses = g.user.favorites
-    favorites = [(favorite.id) for favorite in g.user.favorites]
-    return render_template('/user/favorites.html', user=g.user, businesses=businesses, favorites=favorites, math=math)
+    user = User.query.get_or_404(user_id)
+    businesses = user.favorites
+    favorites = [(favorite.id) for favorite in user.favorites]
+    return render_template('/user/favorites.html', user=user, businesses=businesses, favorites=favorites, math=math)
 
-@app.route('/users/add_favorite/<business_id>', methods=['POST'])
+@app.route('/users/favorites/<business_id>', methods=['POST'])
 def add_favorite(business_id):
     '''Add A Favorite Restaurant'''
     if not g.user:
@@ -164,12 +162,21 @@ def add_favorite(business_id):
         if new_business:
             g.user.favorites.append(new_business)
             db.session.commit()
-        return redirect('/')
+        result = {
+            'business': new_business.serialize(),
+            'result':'OK'
+        }
+        return jsonify(result)
     else:
         g.user.favorites.append(business)
-        return redirect('/')
+        db.session.commit()
+        result = {
+            'business': business.serialize(),
+            'result': 'OK'
+        }
+        return jsonify(result)
     
-@app.route('/users/remove_favorite/<business_id>', methods=['POST'])
+@app.route('/users/favorites/<business_id>', methods=['DELETE'])
 def remove_favorite(business_id):
     '''Remove A Favorited Restaurant'''
     if not g.user:
@@ -179,9 +186,38 @@ def remove_favorite(business_id):
     if business in g.user.favorites:
         g.user.favorites.remove(business)
         db.session.commit()
-        return redirect('/')
+        result = {
+            'business': business.serialize(),
+            'result': 'OK'
+        }
+        return jsonify(result)
     else:
-        return redirect('/')
+        result = {
+            'result': 'Invalid'
+        }
+        return jsonify(result)
+
+@app.route('/users/<int:user_id>/comments')
+def comments(user_id):
+    '''Show Comments List of User'''
+    user = User.query.get_or_404(user_id)
+    comments = user.comments
+    return render_template('/user/comments.html', comments=comments, user=user)
+
+@app.route('/users/remove_comment/<int:comment_id>', methods=['POST'])
+def remove_comment(comment_id):
+    '''Remove a Comment from an authorized user'''
+    if not g.user:
+        flash('Unauthorized Access! Please Sign In First!', 'danger')
+        return redirect('/login')
+    comment = Comment.query.get_or_404(comment_id)
+    if comment.user_id == g.user.id:
+        db.session.delete(comment)
+        db.session.commit()
+        return redirect(f'/users/{g.user.id}')
+    else:
+        flash('Must be the owner to delete this comment!', 'danger')
+        return redirect(f'/users/{g.user.id}')
 
 
 # restaurants endpoints

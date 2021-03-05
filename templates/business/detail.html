@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="card mb-3">
         {% with bg_image=business.image_url %}
-        <div class="jumbotron" style='background:url({{bg_image}}) no-repeat center; background-size:cover'>
+        <div class="jumbotron card-img-top" style='background:url({{bg_image}}) no-repeat center; background-size:cover'>
         {% endwith %}
         </div>
         <div class="card-body">
@@ -106,17 +106,26 @@
             <div class="row">
                 <div class="col">
                     <h2 class='display-5'>Comments</h2>
+                    
                     <div class="container comments-list">
                         {% for comment in comments %}
                         <div class="comment card my-2">
-                            <h4 class="card-title">{{comment.user.first_name}} {{comment.user.last_name}}</h4>
-                            <div class="card-body">
-                                <p class="card-text">{{comment.message}}</p>
-                                <p class="card-text text-mute">{{comment.created_at}}</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="{{comment.user.image_url}}" alt="" class="card-img-top">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{comment.user.first_name}} {{comment.user.last_name}}</h4>
+                                        <p class="card-text">{{comment.message}}</p>
+                                        <p class="card-text text-mute">{{comment.created_at}}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
+                    {% if comment_form %}
                     <form action="/restaurants/{{business['id']}}" method='POST'>
                         {{comment_form.hidden_tag()}}
                         <div class="form-group">
@@ -137,6 +146,12 @@
                             </div>
                         </div>
                     </form>
+                    {% else %}
+                    <div class="container">
+                        <p class="card-text">Please Sign In Before Comment <a href="/login">Sign In Here</a>
+                        </p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
