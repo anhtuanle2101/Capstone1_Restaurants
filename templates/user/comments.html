@@ -15,11 +15,9 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             {% if comment.user.id == user.id %}
-                            <form action="/users/remove_comment/{{comment.id}}" method="POST">
-                                <button class="close remove-comment" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </form>
+                            <button class="close remove-comment" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             {% endif %}
                             <h4 class="card-title">
                                 {{comment.user.first_name}} {{comment.user.last_name}} @<a href="/restaurants/{{comment.business.id}}">{{comment.business.name}}</a>
