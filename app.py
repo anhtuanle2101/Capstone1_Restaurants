@@ -17,7 +17,7 @@ DOCUMENU_URL = 'https://api.documenu.com/v2'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres:///restaurants')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
@@ -204,7 +204,7 @@ def comments(user_id):
     comments = user.comments
     return render_template('/user/comments.html', comments=comments, user=user)
 
-@app.route('/users/remove_comment/<int:comment_id>', methods=['POST'])
+@app.route('/users/comments/<int:comment_id>', methods=['DELETE'])
 def remove_comment(comment_id):
     '''Remove a Comment from an authorized user'''
     if not g.user:
@@ -214,11 +214,39 @@ def remove_comment(comment_id):
     if comment.user_id == g.user.id:
         db.session.delete(comment)
         db.session.commit()
-        return redirect(f'/users/{g.user.id}')
+        result = {'result':'OK'}
+        return jsonify(result)
     else:
-        flash('Must be the owner to delete this comment!', 'danger')
-        return redirect(f'/users/{g.user.id}')
+        result = {'result':'Invalid'}
+        return jsonify(result)
 
+@app.route('/users/comments/<business_id>', methods=['POST'])
+def commenting(business_id):
+    '''Add a comment to a business'''
+    if not g.user:
+        flash("Unauthorized Access! Please Sign In First!", "danger")
+        return redirect('/login')
+    business = Business.query.get_or_404(business_id)
+    message = request.json.get('message',None)
+    if message:
+        new_comment = Comment(
+            message=str(message),
+            user_id=g.user.id,
+            business_id=business.id
+        )
+        business.comments.append(new_comment)
+        db.session.commit()
+        result = {
+            'result':'OK',
+            'new_comment':new_comment.serialize()
+        }
+        return jsonify(result)
+    else:
+        result = {
+            'result':'Invalid',
+            'message':'The comment is Empty'
+        }
+        return jsonify(result)
 
 # restaurants endpoints
 @app.route('/restaurants')
@@ -250,19 +278,9 @@ def restaurant_details(business_id):
         return render_template('/business/detail.html', comment_form=None, business=business, menu=menu, math=math)
     else:
         comment_form = CommentForm()
-        if comment_form.validate_on_submit():
-            new_comment = Comment(
-                message=comment_form.message.data,
-                user_id=g.user.id,
-                business_id=business.id
-            )
-            db.session.add(new_comment)
-            db.session.commit()
-            return redirect(f'/restaurants/{business.id}')
-        else:
-            hours = business.hours.split(',')
-            comments = business.comments
-            return render_template('/business/detail.html', comment_form=comment_form, business=business, hours=hours, comments=comments, menu=menu, math=math)
+        hours = business.hours.split(',')
+        comments = business.comments
+        return render_template('/business/detail.html', comment_form=comment_form, business=business, hours=hours, comments=comments, menu=menu, math=math)
 
 # homepage endpoints
 @app.route('/')

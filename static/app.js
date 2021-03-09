@@ -1,11 +1,11 @@
-restaurantCards = document.querySelector('.cards-list')
+restaurantCards = document.querySelector('.cards-list');
 
 restaurantCards.addEventListener('click', favoriteToggle)
 
 async function favoriteToggle(evt){
     if (evt.target.classList.contains('favorite-btn')){
         businessId = evt.target.dataset.business;
-        const res = await axios.post(`/users/favorites/${businessId}`)
+        const res = await axios.post(`/users/favorites/${businessId}`);
         if (res.data['result'] == 'OK'){
             evt.target.classList.remove('favorite-btn');
             evt.target.classList.add('unfavorite-btn');

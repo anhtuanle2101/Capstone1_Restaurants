@@ -120,6 +120,19 @@ class Comment(db.Model):
     business = db.relationship('Business')
 
     likes = db.relationship('Like')
+
+    def serialize(self):
+        return{
+            'id':self.id,
+            'message':self.message,
+            'created_at':self.created_at,
+            'user_id':self.user_id,
+            'business_id':self.business_id,
+            'business_name':self.business.name,
+            'user_image_url':self.user.image_url,
+            'user_first_name':self.user.first_name,
+            'user_last_name':self.user.last_name
+        }
     
 class Like(db.Model):
     """Likes collection => Users can like comments on businesses"""

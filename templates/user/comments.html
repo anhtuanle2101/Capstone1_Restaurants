@@ -16,13 +16,13 @@
                         <div class="card-body">
                             {% if comment.user.id == user.id %}
                             <form action="/users/remove_comment/{{comment.id}}" method="POST">
-                                <button class="close" aria-label="Close">
+                                <button class="close remove-comment" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </form>
                             {% endif %}
                             <h4 class="card-title">
-                                {{comment.user.first_name}} {{comment.user.last_name}} at <a href="/restaurants/{{comment.business.id}}">{{comment.business.name}}</a>
+                                {{comment.user.first_name}} {{comment.user.last_name}} @<a href="/restaurants/{{comment.business.id}}">{{comment.business.name}}</a>
                             </h4>
                             <p class="card-text">{{comment.message}}</p>
                             <p class="card-text text-mute">{{comment.created_at}}</p>
