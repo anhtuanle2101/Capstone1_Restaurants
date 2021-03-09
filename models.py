@@ -145,9 +145,7 @@ class Like(db.Model):
 
     user = db.relationship('User')
     comment = db.relationship('Comment')
-
-
-
+l
 class Search_History(db.Model):
     """Search history Collection"""
 

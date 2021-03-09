@@ -45,4 +45,4 @@
 
 ## Database Schema 
 
--   https://dbdiagram.io/embed/6037f78bfcdcb6230b218a83
+-   https://dbdiagram.io/d/6047da60fcdcb6230b235a55
