@@ -6,7 +6,7 @@ import requests
 import math
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from models import connect_db, db, User, Favorite, Like, Comment, Search_History, Business
+from models import connect_db, db, User, Favorite, Like, Comment, Business
 from forms import LogInForm, SignUpForm, CommentForm, SearchForm
 
 app = Flask(__name__)

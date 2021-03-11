@@ -24,7 +24,7 @@
               <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav container-fluid">
                     <a class="nav-link" aria-current="page" href="/">Home</a>
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="/search">Search</a>
                     {% if 'curr_user' in session %}
                     <a class="nav-link" href="/users/{{session['curr_user']}}">Account</a>
                     <form action="/logout" method='POST' style='display:grid; place-items:center'>

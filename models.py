@@ -30,7 +30,7 @@ class User(db.Model):
 
     likes = db.relationship('Comment', secondary='likes')
 
-    searches = db.relationship('Search_History')
+    # searches = db.relationship('Search_History')
 
     def __repr__(self):
         return f'<User {self.id} {self.first_name} {self.last_name} {self.email} {self.zip_code} {self.birth_date}>'
@@ -145,16 +145,16 @@ class Like(db.Model):
 
     user = db.relationship('User')
     comment = db.relationship('Comment')
-l
-class Search_History(db.Model):
-    """Search history Collection"""
 
-    __tablename__ = 'searches'
+# class Search_History(db.Model):
+#     """Search history Collection"""
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    term = db.Column(db.Text, nullable=False)
-    location = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+#     __tablename__ = 'searches'
 
-    user = db.relationship('User')
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     term = db.Column(db.Text, nullable=False)
+#     location = db.Column(db.Text, nullable=False)
+#     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+
+#     user = db.relationship('User')

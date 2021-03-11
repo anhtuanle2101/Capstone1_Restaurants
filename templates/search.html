@@ -41,19 +41,15 @@
             <div class="row">
                 <div class="col">
                     <div class="card my-3 restaurant-cards-results" >
-                        <a href="/restaurants/{{businesses[i]['id']}}" style='text-decoration:none;color:black'>
+                        
                         <div class="row no-gutters">
                             <div class="col-md-4">
                                 <div class="image-container">
                                     <img class="card-img-top w-100" src="{{businesses[i]['image_url']}}" alt="Card image cap">
                                     {% if businesses[i]['id'] not in favorites %}
-                                    <form action="/users/add_favorite/{{businesses[i]['id']}}" method='POST'>
-                                        <button><i class="favorite-btn fas fa-heart"></i></button>
-                                    </form>
+                                    <button><i class="favorite-btn fas fa-heart" data-business='{{businesses[i]["id"]}}'></i></button>
                                     {% else %}
-                                    <form action="/users/remove_favorite/{{businesses[i]['id']}}" method='POST'>
-                                        <button><i class="unfavorite-btn fas fa-heart"></i></button>
-                                    </form>
+                                    <button><i class="unfavorite-btn fas fa-heart" data-business='{{businesses[i]["id"]}}'></i></button>
                                     {% endif %}
                                 </div>
                             </div>
@@ -61,14 +57,16 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h4 class="display-6 card-text font-weight-bold">
-                                                {{businesses[i]['name']}} 
-                                                <!-- {% if not businesses[i]['is_closed'] %}
-                                                    (Opening) 
-                                                {%else%} 
-                                                    (Closed) 
-                                                {% endif %} -->
-                                            </h4>
+                                            <a href="/restaurants/{{businesses[i]['id']}}" style='text-decoration:none;color:black'>
+                                                <h4 class="display-6 card-text font-weight-bold">
+                                                    {{businesses[i]['name']}} 
+                                                    <!-- {% if not businesses[i]['is_closed'] %}
+                                                        (Opening) 
+                                                    {%else%} 
+                                                        (Closed) 
+                                                    {% endif %} -->
+                                                </h4>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -118,7 +116,6 @@
                                 </div>
                             </div>
                         </div>
-                        </a>
                     </div>
                 </div>
             </div>
