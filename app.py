@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, flash, session, redirect, g, render_template, request, jsonify
-from secrets import APP_SECRET_KEY, YELP_API_KEY, DOCUMENU_API_KEY
+#from secrets import APP_SECRET_KEY, YELP_API_KEY, DOCUMENU_API_KEY
 import requests
 import math
 from flask_debugtoolbar import DebugToolbarExtension
