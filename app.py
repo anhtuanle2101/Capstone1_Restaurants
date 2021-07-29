@@ -18,7 +18,7 @@ DOCUMENU_URL = 'https://api.documenu.com/v2'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres:///restaurants')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['SECRET_KEY'] = os.environ.get('APP_SECRET_KEY', APP_SECRET_KEY)
+app.config['SECRET_KEY'] = os.environ.get('APP_SECRET_KEY', 'this_is_key')
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 #toolbar = DebugToolbarExtension(app)
