@@ -11,6 +11,9 @@ from forms import LogInForm, SignUpForm, CommentForm, SearchForm
 
 app = Flask(__name__)
 
+YELP_API_KEY = os.environ.get('YELP_API_KEY')
+YELP_CLIENT_KEY = os.environ.get('YELP_CLIENT_KEY')
+DOCUMENU_API_KEY = os.environ.get('DOCUMENU_API_KEY')
 CURR_USER_KEY = 'curr_user'
 YELP_URL = 'https://api.yelp.com/v3'
 DOCUMENU_URL = 'https://api.documenu.com/v2'
